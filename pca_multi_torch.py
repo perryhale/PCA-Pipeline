@@ -15,15 +15,15 @@ T0 = time.time()
 
 # arguments
 N_CPU = 8
-BATCH_SIZE = 256
+BATCH_SIZE = 512
 DATA_PATH = './data'
-DATA_RES = 128
+DATA_RES = 224
 
 
 ### functions
 
 # type: () ->
-def dataset_to_numpy(dataset, num_workers=0, batch_trunc=1):
+def dataset_to_numpy(dataset, num_workers=0, batch_trunc=None):
 	loader = DataLoader(dataset, batch_size=BATCH_SIZE, num_workers=num_workers, shuffle=False)
 	data_x = []
 	data_y = []
@@ -39,17 +39,17 @@ def process_dataset(key, dataset):
 	
 	# convert to numpy
 	data_x, data_y = dataset_to_numpy(dataset)
-	print("data_x:", data_x.shape)
-	print("data_y:", data_y.shape)
-	print(f'Converted \"{key}\" to numpy -> {data_x.shape}')
+	print(f'Converted \"{key}\" to numpy')
+	print(' -> data_x', data_x.shape)
+	print(' -> data_y', data_y.shape)
 	print(f'[Elapsed time: {time.time() - T0:.2f}s]')
 	
 	# flatten and standardize
 	data_x = data_x.reshape(data_x.shape[0], -1)
 	data_x = StandardScaler().fit_transform(data_x)
-	print("data_x:", data_x.shape)
-	print("data_y:", data_y.shape)
-	print(f'Flattened and standardized \"{key}\" -> {data_x.shape}')
+	print(f'Flattened and standardized \"{key}\"')
+	print(' -> data_x', data_x.shape)
+	print(' -> data_y', data_y.shape)
 	print(f'[Elapsed time: {time.time() - T0:.2f}s]')
 	
 	# perform pca
