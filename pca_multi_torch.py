@@ -14,20 +14,20 @@ from joblib import Parallel, delayed
 T0 = time.time()
 
 # arguments
-N_WORKERS = 4
+N_CPU = 8
 BATCH_SIZE = 256
 DATA_PATH = './data'
+DATA_RES = 128
 
 
 ### functions
 
 # type: () ->
-def dataset_to_numpy(dataset, num_workers=0):
+def dataset_to_numpy(dataset, num_workers=0, batch_trunc=1):
 	loader = DataLoader(dataset, batch_size=BATCH_SIZE, num_workers=num_workers, shuffle=False)
 	data_x = []
 	data_y = []
-	for _, (x, y) in zip(range(2), loader):
-	#for x, y in loader:
+	for _, (x, y) in zip(range(len(loader) if batch_trunc is None else batch_trunc), loader):
 		data_x.append(x.numpy())
 		data_y.append(y.numpy())
 	data_x = np.concatenate(data_x, axis=0)
@@ -41,7 +41,7 @@ def process_dataset(key, dataset):
 	data_x, data_y = dataset_to_numpy(dataset)
 	print("data_x:", data_x.shape)
 	print("data_y:", data_y.shape)
-	print(f'Converted \"{key}\" to numpy')
+	print(f'Converted \"{key}\" to numpy -> {data_x.shape}')
 	print(f'[Elapsed time: {time.time() - T0:.2f}s]')
 	
 	# flatten and standardize
@@ -49,7 +49,7 @@ def process_dataset(key, dataset):
 	data_x = StandardScaler().fit_transform(data_x)
 	print("data_x:", data_x.shape)
 	print("data_y:", data_y.shape)
-	print(f'Flattened and standardized \"{key}\"')
+	print(f'Flattened and standardized \"{key}\" -> {data_x.shape}')
 	print(f'[Elapsed time: {time.time() - T0:.2f}s]')
 	
 	# perform pca
@@ -74,9 +74,10 @@ def process_dataset(key, dataset):
 
 ### main
 
-# define transform
+# define normalising transform
 transform = transforms.Compose([
-	transforms.Resize((224, 224)),
+	transforms.Lambda(lambda x: x.convert("RGB")),
+	transforms.Resize((DATA_RES, DATA_RES)),
 	transforms.ToTensor()
 ])
 
@@ -89,9 +90,12 @@ datasets = {
 	'food101':	torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
 	'gtsrb':torchvision.datasets.GTSRB(root=DATA_PATH, download=True, transform=transform),
 }
-print('Loaded rescaled data')
-for key, dataset in datasets.items(): print(f' - {key} {len(dataset)}')
+print('Loaded and rescaled data')
+for key, dataset in datasets.items():
+	print(f' - {key} {len(dataset)} x {dataset[0][0].numpy().shape}')
 print(f'[Elapsed time: {time.time() - T0:.2f}s]')
 
 # process datasets
-Parallel(n_jobs=N_WORKERS)([delayed(process_dataset)(key, dataset) for key, dataset in datasets.items()])
+n_jobs = min(len(datasets), N_CPU)
+print(f'Using {n_jobs} CPUs')
+Parallel(n_jobs=n_jobs)([delayed(process_dataset)(key, dataset) for key, dataset in datasets.items()])
