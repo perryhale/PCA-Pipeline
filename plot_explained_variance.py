@@ -4,7 +4,7 @@ import glob
 
 
 # define keys
-file_paths = files = glob.glob("*.npz")
+file_paths = glob.glob("*.npz")
 
 # define colors
 colors = plt.cm.Spectral(np.linspace(0, 1, len(file_paths)))
@@ -51,4 +51,4 @@ ax0.legend(handles, labels,
 fig.subplots_adjust(right=0.7)
 
 # save figure
-plt.savefig(f'{__file__.replace(".py","")}.png')
+plt.savefig(__file__.replace(".py",".png"))
