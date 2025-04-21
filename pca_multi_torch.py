@@ -15,16 +15,17 @@ T0 = time.time()
 
 # arguments
 N_CPU = 8
-BATCH_SIZE = 512
 DATA_PATH = './data'
 DATA_RES = 224
+BATCH_SIZE = 512
+BATCH_TRUNC = 2
 
 
 ### functions
 
 # type: () ->
-def dataset_to_numpy(dataset, num_workers=0, batch_trunc=None):
-	loader = DataLoader(dataset, batch_size=BATCH_SIZE, num_workers=num_workers, shuffle=False)
+def dataset_to_numpy(dataset, num_workers=0, batch_size=BATCH_SIZE, batch_trunc=BATCH_TRUNC):
+	loader = DataLoader(dataset, batch_size=batch_size, num_workers=num_workers, shuffle=False if batch_trunc is None else True)
 	data_x = []
 	data_y = []
 	for _, (x, y) in zip(range(len(loader) if batch_trunc is None else batch_trunc), loader):
@@ -87,7 +88,7 @@ datasets = {
 	'caltech101':torchvision.datasets.Caltech101(root=DATA_PATH, download=True, transform=transform),
 	'flowers102':torchvision.datasets.Flowers102(root=DATA_PATH, download=True, transform=transform),
 	'imagenette':torchvision.datasets.Imagenette(root=DATA_PATH, download=True, transform=transform),
-	'food101':	torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
+	'food101':torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
 	'gtsrb':torchvision.datasets.GTSRB(root=DATA_PATH, download=True, transform=transform),
 }
 print('Loaded and rescaled data')
