@@ -84,12 +84,17 @@ transform = transforms.Compose([
 
 # load datasets
 datasets = {
-	'cifar10':torchvision.datasets.CIFAR10(root=DATA_PATH, train=True, download=True, transform=transform),
-	'caltech101':torchvision.datasets.Caltech101(root=DATA_PATH, download=True, transform=transform),
-	'flowers102':torchvision.datasets.Flowers102(root=DATA_PATH, download=True, transform=transform),
-	'imagenette':torchvision.datasets.Imagenette(root=DATA_PATH, download=True, transform=transform),
-	'food101':torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
-	'gtsrb':torchvision.datasets.GTSRB(root=DATA_PATH, download=True, transform=transform),
+	'CIFAR10':torchvision.datasets.CIFAR10(root=DATA_PATH, train=True, download=True, transform=transform),
+	'Caltech101':torchvision.datasets.Caltech101(root=DATA_PATH, download=True, transform=transform),
+	'Flowers102':torchvision.datasets.Flowers102(root=DATA_PATH, download=True, transform=transform),
+	'Imagenette':torchvision.datasets.Imagenette(root=DATA_PATH, download=True, transform=transform),
+	'Food101':torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
+	'GTSRB':torchvision.datasets.GTSRB(root=DATA_PATH, download=True, transform=transform),
+	'FakeData':torchvision.datasets.FakeData(size=BATCH_TRUNC*BATCH_SIZE, image_size=(3, DATA_RES, DATA_RES), transform=transform, random_offset=time.time()),
+	'DTD':torchvision.datasets.DTD(root=DATA_PATH, download=True, transform=transform),
+	'PCAM':torchvision.datasets.PCAM(root=DATA_PATH, download=True, transform=transform),
+	'SEMEION':torchvision.datasets.SEMEION(root=DATA_PATH, download=True, transform=transform),
+	'EuroSAT':torchvision.datasets.EuroSAT(root=DATA_PATH, download=True, transform=transform),
 }
 print('Loaded and rescaled data')
 for key, dataset in datasets.items():
