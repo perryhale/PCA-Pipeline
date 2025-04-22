@@ -40,6 +40,9 @@ ax1.set_xlabel("Principal axis")
 
 # draw annotations
 #ax1.axhline(0.95, c='Red', linestyle='dashed', label='95% Threshold')
+fake_data = ([0,len(cumulative_ratios[list(cumulative_ratios.keys())[0]])], [0,1])
+ax0.plot(*fake_data, c='grey', linestyle='dashed', label='FakeData')
+ax1.plot(*fake_data, c='grey', linestyle='dashed', label='FakeData')
 handles, labels = ax1.get_legend_handles_labels()
 ax0.legend(handles, labels,
 	bbox_to_anchor=(1.05, 1),

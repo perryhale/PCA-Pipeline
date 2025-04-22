@@ -90,11 +90,12 @@ datasets = {
 	'Imagenette':torchvision.datasets.Imagenette(root=DATA_PATH, download=True, transform=transform),
 	'Food101':torchvision.datasets.Food101(root=DATA_PATH, download=True, transform=transform),
 	'GTSRB':torchvision.datasets.GTSRB(root=DATA_PATH, download=True, transform=transform),
-	'FakeData':torchvision.datasets.FakeData(size=BATCH_TRUNC*BATCH_SIZE, image_size=(3, DATA_RES, DATA_RES), transform=transform, random_offset=time.time()),
 	'DTD':torchvision.datasets.DTD(root=DATA_PATH, download=True, transform=transform),
 	'PCAM':torchvision.datasets.PCAM(root=DATA_PATH, download=True, transform=transform),
 	'SEMEION':torchvision.datasets.SEMEION(root=DATA_PATH, download=True, transform=transform),
 	'EuroSAT':torchvision.datasets.EuroSAT(root=DATA_PATH, download=True, transform=transform),
+	'ScrewSet(1)':torchvision.datasets.ImageFolder(root='data/screwset_clean_1', transform=transform),
+###!'FakeData':torchvision.datasets.FakeData(size=BATCH_TRUNC*BATCH_SIZE, image_size=(3, DATA_RES, DATA_RES), transform=transform, random_offset=time.time()), # disabled for plotting
 }
 print('Loaded and rescaled data')
 for key, dataset in datasets.items():
