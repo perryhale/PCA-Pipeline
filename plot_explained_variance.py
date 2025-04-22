@@ -2,8 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 
-
-# define keys
+# define paths
 file_paths = glob.glob("*.npz")
 
 # define colors
