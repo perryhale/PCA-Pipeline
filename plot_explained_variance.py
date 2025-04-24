@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import glob
 
 # define paths
-file_paths = glob.glob("*.npz")
+file_paths = glob.glob('*.npz')
 
 # define colors
 colors = plt.cm.Spectral(np.linspace(0, 1, len(file_paths)))
@@ -34,15 +34,15 @@ for ax in axis:
 
 # set per axis properties
 ax1.set_xlim(0,128)
-ax0.set_ylabel("Cumulative variance ratio")
-ax1.set_ylabel("Cumulative variance ratio")
-ax1.set_xlabel("Principal axis")
+ax0.set_ylabel('Cumulative Explained Variance Ratio')
+ax1.set_ylabel('Cumulative Explained Variance Ratio')
+ax1.set_xlabel('Principal axis')
 
 # draw annotations
 #ax1.axhline(0.95, c='Red', linestyle='dashed', label='95% Threshold')
-fake_data = ([0,len(cumulative_ratios[list(cumulative_ratios.keys())[0]])], [0,1])
-ax0.plot(*fake_data, c='grey', linestyle='dashed', label='FakeData')
-ax1.plot(*fake_data, c='grey', linestyle='dashed', label='FakeData')
+true_noise = ([0,len(cumulative_ratios[list(cumulative_ratios.keys())[0]])], [0,1])
+ax0.plot(*true_noise, c='grey', linestyle='dashed')#, label='FakeData')
+ax1.plot(*true_noise, c='grey', linestyle='dashed')#, label='FakeData')
 handles, labels = ax1.get_legend_handles_labels()
 ax0.legend(handles, labels,
 	bbox_to_anchor=(1.05, 1),
@@ -53,4 +53,4 @@ ax0.legend(handles, labels,
 fig.subplots_adjust(right=0.7)
 
 # save figure
-plt.savefig(__file__.replace(".py",".png"))
+plt.savefig(__file__.replace('.py','.png'))

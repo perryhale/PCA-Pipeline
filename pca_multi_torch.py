@@ -14,7 +14,7 @@ from joblib import Parallel, delayed
 T0 = time.time()
 
 # arguments
-N_CPU = 8
+N_CPU = 16
 DATA_PATH = './data'
 DATA_RES = 224
 BATCH_SIZE = 512
@@ -95,7 +95,7 @@ datasets = {
 	'SEMEION':torchvision.datasets.SEMEION(root=DATA_PATH, download=True, transform=transform),
 	'EuroSAT':torchvision.datasets.EuroSAT(root=DATA_PATH, download=True, transform=transform),
 	'ScrewSet(1)':torchvision.datasets.ImageFolder(root='data/screwset_clean_1', transform=transform),
-###!'FakeData':torchvision.datasets.FakeData(size=BATCH_TRUNC*BATCH_SIZE, image_size=(3, DATA_RES, DATA_RES), transform=transform, random_offset=time.time()), # disabled for plotting
+	'FakeData':torchvision.datasets.FakeData(size=BATCH_TRUNC*BATCH_SIZE, image_size=(3, DATA_RES, DATA_RES), transform=transform, random_offset=time.time()),
 }
 print('Loaded and rescaled data')
 for key, dataset in datasets.items():
